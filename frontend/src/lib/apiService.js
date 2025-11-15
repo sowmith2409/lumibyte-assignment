@@ -1,7 +1,7 @@
 // API service for backend communication
 const API_URL =
   (process.env.REACT_APP_API_URL && process.env.REACT_APP_API_URL.trim()) ||
-  'http://localhost:3001';
+  'https://lumibyte-assignment.onrender.com';
 
 // Get all sessions
 export async function getSessions() {
