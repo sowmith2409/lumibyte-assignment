@@ -1,120 +1,139 @@
-// Mock data for sessions and chat messages
+// -----------------------
+// Mock Answer Datasets
+// -----------------------
 const mockAnswers = [
   {
-    description: "Here's an overview of top-performing stocks in the technology sector. These companies show strong quarterly growth and market position.",
+    description:
+      "Here’s a breakdown of global climate indicators from 2024, covering temperature anomalies, CO₂ levels, and major environmental events.",
     table: {
-      columns: ["Company", "Symbol", "Price", "Change", "Market Cap"],
+      columns: ["Metric", "Value", "Change", "Region", "Status"],
       rows: [
-        ["Apple Inc.", "AAPL", "$178.50", "+2.3%", "$2.8T"],
-        ["Microsoft Corp.", "MSFT", "$385.20", "+1.8%", "$2.9T"],
-        ["NVIDIA Corp.", "NVDA", "$495.30", "+4.2%", "$1.2T"],
-        ["Amazon.com", "AMZN", "$145.80", "+0.9%", "$1.5T"],
-        ["Alphabet Inc.", "GOOGL", "$142.65", "+1.5%", "$1.8T"],
+        ["CO₂ Level", "421 ppm", "+2.1%", "Global", "Rising"],
+        ["Avg Temp Increase", "+1.5°C", "+0.04°C", "Global", "Critical"],
+        ["Sea Level Rise", "3.6 mm", "+0.3 mm", "Coastal Areas", "Severe"],
+        ["Forest Loss", "11.4M hectares", "-1.2%", "Amazon", "High"],
+        ["Ice Sheet Loss", "278 gigatons", "+3%", "Antarctica", "Alarming"]
       ]
     }
   },
   {
-    description: "Current system metrics showing server performance and resource utilization across all production environments.",
+    description:
+      "World population demographics summary showing age distribution, life expectancy, and growth metrics across continents.",
     table: {
-      columns: ["Server", "CPU Usage", "Memory", "Uptime", "Status"],
+      columns: ["Continent", "Population", "Growth Rate", "Life Expectancy", "Median Age"],
       rows: [
-        ["web-01", "45%", "62%", "23 days", "Healthy"],
-        ["web-02", "38%", "58%", "23 days", "Healthy"],
-        ["db-01", "72%", "81%", "45 days", "Warning"],
-        ["cache-01", "22%", "34%", "45 days", "Healthy"],
-        ["api-01", "56%", "67%", "12 days", "Healthy"],
+        ["Asia", "4.75B", "+0.9%", "74.2", "32"],
+        ["Africa", "1.47B", "+2.3%", "64.8", "19"],
+        ["Europe", "742M", "+0.1%", "78.6", "43"],
+        ["North America", "602M", "+0.6%", "79.1", "38"],
+        ["South America", "436M", "+0.8%", "76.4", "31"]
       ]
     }
   },
   {
-    description: "Monthly sales performance breakdown by region, showing revenue trends and growth metrics for Q4 2024.",
+    description:
+      "Education performance metrics comparing academic outcomes across countries using standardized testing data.",
     table: {
-      columns: ["Region", "Revenue", "Growth", "Orders", "Avg. Order"],
+      columns: ["Country", "Math Score", "Science Score", "Reading Score", "Rank"],
       rows: [
-        ["North America", "$2.4M", "+15.2%", "3,450", "$696"],
-        ["Europe", "$1.8M", "+12.8%", "2,890", "$623"],
-        ["Asia Pacific", "$3.1M", "+22.5%", "5,120", "$605"],
-        ["Latin America", "$890K", "+8.3%", "1,230", "$724"],
-        ["Middle East", "$1.2M", "+18.7%", "1,680", "$714"],
+        ["Singapore", "592", "580", "575", "1"],
+        ["Japan", "558", "552", "545", "2"],
+        ["South Korea", "545", "544", "538", "3"],
+        ["Finland", "520", "516", "507", "7"],
+        ["Canada", "512", "507", "503", "11"]
       ]
     }
   },
   {
-    description: "Employee performance metrics for the current quarter, highlighting top performers and key achievement indicators.",
+    description:
+      "Electric vehicle adoption metrics showing market share, production capacity, and battery efficiency for 2024.",
     table: {
-      columns: ["Employee", "Department", "Tasks Done", "Efficiency", "Rating"],
+      columns: ["Brand", "Market Share", "Range", "Battery Efficiency", "Factory Output"],
       rows: [
-        ["Sarah Chen", "Engineering", "142", "94%", "⭐⭐⭐⭐⭐"],
-        ["Mike Johnson", "Sales", "98", "91%", "⭐⭐⭐⭐⭐"],
-        ["Emma Wilson", "Marketing", "87", "88%", "⭐⭐⭐⭐"],
-        ["Alex Kumar", "Product", "76", "89%", "⭐⭐⭐⭐"],
-        ["Lisa Park", "Operations", "112", "92%", "⭐⭐⭐⭐⭐"],
+        ["Tesla", "18%", "420 miles", "92%", "1.8M units"],
+        ["BYD", "15%", "350 miles", "89%", "2.1M units"],
+        ["Hyundai", "7%", "330 miles", "87%", "850K units"],
+        ["Mercedes", "4%", "310 miles", "85%", "520K units"],
+        ["Tata Motors", "3%", "280 miles", "82%", "700K units"]
       ]
     }
   },
   {
-    description: "Real-time cryptocurrency market snapshot showing current prices, trading volumes, and 24-hour performance changes.",
+    description:
+      "Global tourism trends for 2024 showing traveler volumes, spending behavior, and recovery compared to pre-pandemic levels.",
     table: {
-      columns: ["Coin", "Price", "24h Change", "Volume", "Market Cap"],
+      columns: ["Country", "Visitors (M)", "Growth", "Avg Spend", "Top Attraction"],
       rows: [
-        ["Bitcoin", "$43,250", "+3.5%", "$28.5B", "$845B"],
-        ["Ethereum", "$2,280", "+2.8%", "$15.2B", "$274B"],
-        ["Cardano", "$0.52", "+1.2%", "$420M", "$18.3B"],
-        ["Solana", "$98.40", "+5.7%", "$2.1B", "$42.1B"],
-        ["Polygon", "$0.89", "+4.3%", "$310M", "$8.3B"],
+        ["France", "92M", "+12%", "$980", "Eiffel Tower"],
+        ["USA", "78M", "+9%", "$1,250", "Times Square"],
+        ["Spain", "74M", "+10%", "$860", "Sagrada Família"],
+        ["Italy", "68M", "+8%", "$910", "Colosseum"],
+        ["Japan", "50M", "+18%", "$1,020", "Mount Fuji"]
       ]
     }
   }
 ];
 
-// In-memory storage for sessions (in production, use a database)
+// -----------------------
+// Sessions (5 demo sessions)
+// -----------------------
 let sessions = [
   {
-    sessionId: "session_demo_001",
-    title: "Stock Market Analysis",
+    sessionId: "session_demo_101",
+    title: "Climate Overview 2024",
     createdAt: new Date(Date.now() - 86400000).toISOString(),
     messages: [
-      {
-        type: "user",
-        question: "What are the top tech stocks?",
-        timestamp: new Date(Date.now() - 86400000).toISOString(),
-        feedback: null
-      },
-      {
-        type: "bot",
-        answer: mockAnswers[0],
-        timestamp: new Date(Date.now() - 86350000).toISOString(),
-        feedback: null
-      }
+      { type: "user", question: "Show me global climate metrics.", timestamp: new Date().toISOString(), feedback: null },
+      { type: "bot", answer: mockAnswers[0], timestamp: new Date().toISOString(), feedback: null }
     ]
   },
   {
-    sessionId: "session_demo_002",
-    title: "Server Performance Metrics",
+    sessionId: "session_demo_102",
+    title: "World Demographics Summary",
     createdAt: new Date(Date.now() - 172800000).toISOString(),
     messages: [
-      {
-        type: "user",
-        question: "Show me server health status",
-        timestamp: new Date(Date.now() - 172800000).toISOString(),
-        feedback: null
-      },
-      {
-        type: "bot",
-        answer: mockAnswers[1],
-        timestamp: new Date(Date.now() - 172750000).toISOString(),
-        feedback: null
-      }
+      { type: "user", question: "Show me world population metrics.", timestamp: new Date().toISOString(), feedback: null },
+      { type: "bot", answer: mockAnswers[1], timestamp: new Date().toISOString(), feedback: null }
+    ]
+  },
+  {
+    sessionId: "session_demo_103",
+    title: "Education Score Comparison",
+    createdAt: new Date(Date.now() - 259200000).toISOString(),
+    messages: [
+      { type: "user", question: "Show me global education rankings.", timestamp: new Date().toISOString(), feedback: null },
+      { type: "bot", answer: mockAnswers[2], timestamp: new Date().toISOString(), feedback: null }
+    ]
+  },
+  {
+    sessionId: "session_demo_104",
+    title: "EV Market Overview",
+    createdAt: new Date(Date.now() - 345600000).toISOString(),
+    messages: [
+      { type: "user", question: "Show me electric vehicle stats.", timestamp: new Date().toISOString(), feedback: null },
+      { type: "bot", answer: mockAnswers[3], timestamp: new Date().toISOString(), feedback: null }
+    ]
+  },
+  {
+    sessionId: "session_demo_105",
+    title: "Tourism Trends 2024",
+    createdAt: new Date(Date.now() - 432000000).toISOString(),
+    messages: [
+      { type: "user", question: "Show me global tourism data.", timestamp: new Date().toISOString(), feedback: null },
+      { type: "bot", answer: mockAnswers[4], timestamp: new Date().toISOString(), feedback: null }
     ]
   }
 ];
 
+// Generate random fallback answer
 function getRandomAnswer() {
   return mockAnswers[Math.floor(Math.random() * mockAnswers.length)];
 }
 
+// Generate session ID
 function generateSessionId() {
   return `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 }
 
-export { sessions, getRandomAnswer, generateSessionId };
+// Export ALL necessary values
+export { mockAnswers, sessions, getRandomAnswer, generateSessionId };

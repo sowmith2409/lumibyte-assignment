@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { sessions, getRandomAnswer, generateSessionId } from './mockData.js';
+import { mockAnswers, sessions, getRandomAnswer, generateSessionId } from './mockData.js';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -9,12 +9,39 @@ const PORT = process.env.PORT || 3001;
 app.use(cors());
 app.use(express.json());
 
-// Health check endpoint
+
+function getAnswerForQuestion(question) {
+  question = question.toLowerCase();
+
+  if (question.includes("climate") || question.includes("co2") || question.includes("environment")) {
+    return mockAnswers[0];
+  }
+
+  if (question.includes("population") || question.includes("demographics") || question.includes("people")) {
+    return mockAnswers[1];
+  }
+
+  if (question.includes("education") || question.includes("ranking") || question.includes("score") || question.includes("school")) {
+    return mockAnswers[2];
+  }
+
+  if (question.includes("ev") || question.includes("electric") || question.includes("vehicle") || question.includes("car")) {
+    return mockAnswers[3];
+  }
+
+  if (question.includes("tourism") || question.includes("travel") || question.includes("visitors")) {
+    return mockAnswers[4];
+  }
+
+  // fallback random answer
+  return getRandomAnswer();
+}
+
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
-// GET /api/sessions - Get all sessions
 app.get('/api/sessions', (req, res) => {
   const sessionsList = sessions.map(session => ({
     sessionId: session.sessionId,
@@ -22,10 +49,11 @@ app.get('/api/sessions', (req, res) => {
     createdAt: session.createdAt,
     messageCount: session.messages.length
   }));
+
   res.json(sessionsList);
 });
 
-// POST /api/new-chat - Create a new session
+
 app.post('/api/new-chat', (req, res) => {
   const newSessionId = generateSessionId();
   const newSession = {
@@ -34,11 +62,12 @@ app.post('/api/new-chat', (req, res) => {
     createdAt: new Date().toISOString(),
     messages: []
   };
+
   sessions.push(newSession);
   res.json({ sessionId: newSessionId });
 });
 
-// GET /api/session/:id - Get specific session with all messages
+
 app.get('/api/session/:id', (req, res) => {
   const { id } = req.params;
   const session = sessions.find(s => s.sessionId === id);
@@ -50,7 +79,6 @@ app.get('/api/session/:id', (req, res) => {
   res.json(session);
 });
 
-// POST /api/chat/:id - Send a message in a session
 app.post('/api/chat/:id', (req, res) => {
   const { id } = req.params;
   const { question } = req.body;
@@ -74,24 +102,23 @@ app.post('/api/chat/:id', (req, res) => {
   };
   session.messages.push(userMessage);
 
-  // Add bot response
+  // Add bot response (correct answer)
   const botMessage = {
     type: 'bot',
-    answer: getRandomAnswer(),
+    answer: getAnswerForQuestion(question),
     timestamp: new Date().toISOString(),
     feedback: null
   };
   session.messages.push(botMessage);
 
-  // Update session title if it's the first message
+  // Update session title on first message
   if (session.messages.length === 2) {
-    session.title = question.length > 40 ? question.substring(0, 40) + '...' : question;
+    session.title = question.length > 40 ? question.substring(0, 40) + "..." : question;
   }
 
   res.json(session.messages);
 });
 
-// PUT /api/chat/:id/feedback - Update feedback for a message
 app.put('/api/chat/:id/feedback', (req, res) => {
   const { id } = req.params;
   const { messageIndex, feedback } = req.body;
@@ -111,22 +138,21 @@ app.put('/api/chat/:id/feedback', (req, res) => {
   }
 
   session.messages[messageIndex].feedback = feedback;
+
   res.json(session.messages);
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Internal server error' });
 });
 
-// Start server
 app.listen(PORT, () => {
   console.log(`Backend server running on http://localhost:${PORT}`);
   console.log(`API endpoints:`);
-  console.log(`  GET    http://localhost:${PORT}/api/sessions`);
-  console.log(`  POST   http://localhost:${PORT}/api/new-chat`);
-  console.log(`  GET    http://localhost:${PORT}/api/session/:id`);
-  console.log(`  POST   http://localhost:${PORT}/api/chat/:id`);
-  console.log(`  PUT    http://localhost:${PORT}/api/chat/:id/feedback`);
+  console.log(`  GET    /api/sessions`);
+  console.log(`  POST   /api/new-chat`);
+  console.log(`  GET    /api/session/:id`);
+  console.log(`  POST   /api/chat/:id`);
+  console.log(`  PUT    /api/chat/:id/feedback`);
 });
